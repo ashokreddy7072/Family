@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Asset Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#16233D;
+  --paper:#FAF6EC;
+  --paper-raised:#FFFFFF;
+  --line:#D9D0BC;
+  --gold:#9C6B14;
+  --gold-soft:#F1E4C3;
+  --silver:#5F6C7B;
+  --silver-soft:#E7EBEF;
+  --green:#2F5233;
+  --green-soft:#E1EAE0;
+  --blue:#2C5B8A;
+  --blue-soft:#E1E9F0;
+  --teal:#2A6E62;
+  --teal-soft:#DFEDE9;
+  --amber:#B5651D;
+  --amber-soft:#F2E3D3;
+  --rose:#9C4A63;
+  --rose-soft:#F1DEE5;
+  --red:#8F3B3B;
+  --red-soft:#F3E2E0;
+  --muted:#6B7280;
+  --shadow: 0 1px 0 rgba(22,35,61,0.06);
+  --radius: 3px;
+}
+:root:not([data-theme="light"]) {
+  @media (prefers-color-scheme: dark) {
+    --ink:#EDE7D8;
+    --paper:#141821;
+    --paper-raised:#1C212C;
+    --line:#333B4A;
+    --gold:#D7A94A;
+    --gold-soft:#2E2718;
+    --silver:#A9B4C2;
+    --silver-soft:#20262F;
+    --green:#7FBF8A;
+    --green-soft:#182420;
+    --blue:#7FA8D9;
+    --blue-soft:#182430;
+    --teal:#6FBBA9;
+    --teal-soft:#16261F;
+    --amber:#E0A868;
+    --amber-soft:#2E2417;
+    --rose:#D493AA;
+    --rose-soft:#2B1D23;
+    --red:#D98080;
+    --red-soft:#2A1B1B;
+    --muted:#9AA3B2;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#EDE7D8;
+  --paper:#141821;
+  --paper-raised:#1C212C;
+  --line:#333B4A;
+  --gold:#D7A94A;
+  --gold-soft:#2E2718;
+  --silver:#A9B4C2;
+  --silver-soft:#20262F;
+  --green:#7FBF8A;
+  --green-soft:#182420;
+  --blue:#7FA8D9;
+  --blue-soft:#182430;
+  --teal:#6FBBA9;
+  --teal-soft:#16261F;
+  --amber:#E0A868;
+  --amber-soft:#2E2417;
+  --rose:#D493AA;
+  --rose-soft:#2B1D23;
+  --red:#D98080;
+  --red-soft:#2A1B1B;
+  --muted:#9AA3B2;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans', system-ui, sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:60px;
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px;}
+
+/* ---- Cover header ---- */
+.cover{
+  background:var(--ink);
+  color:var(--paper);
+  padding:34px 16px 26px;
+  position:relative;
+  overflow:hidden;
+}
+.cover::after{
+  content:"";
+  position:absolute;
+  right:-40px;top:-40px;
+  width:180px;height:180px;
+  border:1px solid rgba(250,246,236,0.12);
+  border-radius:50%;
+}
+.cover-inner{max-width:720px;margin:0 auto;position:relative;}
+.cover-eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  letter-spacing:0.02em;
+  color:var(--gold);
+  margin:0 0 6px;
+}
+.cover h1{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:30px;
+  letter-spacing:-0.01em;
+  margin:0 0 18px;
+}
+.cover-total{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.cover-total .amt{
+  font-family:'Fraunces', serif;
+  font-size:42px;
+  font-weight:600;
+  line-height:1;
+}
+.cover-total .label{
+  font-size:13px;
+  color:rgba(250,246,236,0.65);
+}
+.cover-sub{
+  display:flex;
+  gap:22px;
+  margin-top:18px;
+  flex-wrap:wrap;
+}
+.cover-sub div{font-size:12.5px;color:rgba(250,246,236,0.6);}
+.cover-sub strong{
+  display:block;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:15px;
+  color:var(--paper);
+  font-weight:500;
+  margin-top:2px;
+}
+
+/* ---- Tabs ---- */
+.tabs{
+  display:flex;
+  overflow-x:auto;
+  background:var(--paper-raised);
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;
+  z-index:10;
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{
+  flex:0 0 auto;
+  padding:13px 16px;
+  font-size:13.5px;
+  font-weight:500;
+  color:var(--muted);
+  background:none;
+  border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.tab.active{
+  color:var(--ink);
+  border-bottom-color:var(--gold);
+}
+
+/* ---- Sections ---- */
+.section{display:none;padding:20px 0 8px;}
+.section.active{display:block;}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  margin-bottom:14px;
+  gap:10px;
+}
+.section-head h2{
+  font-family:'Fraunces', serif;
+  font-size:20px;
+  font-weight:600;
+  margin:0;
+}
+.section-head .subtotal{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:14px;
+  color:var(--green);
+  text-align:right;
+}
+.section-head .subtotal small{display:block;font-family:'IBM Plex Sans',sans-serif;color:var(--muted);font-size:11px;font-weight:400;}
+
+.add-btn{
+  width:100%;
+  padding:11px;
+  background:var(--paper-raised);
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  color:var(--muted);
+  font-size:13.5px;
+  font-family:inherit;
+  cursor:pointer;
+  margin-bottom:14px;
+}
+.add-btn:hover{border-color:var(--gold);color:var(--ink);}
+
+/* ---- Entry card ---- */
+.entry{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:14px 15px;
+  margin-bottom:10px;
+  box-shadow:var(--shadow);
+}
+.entry-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+}
+.entry-name{font-weight:600;font-size:15px;}
+.entry-owner{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.entry-tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10.5px;
+  padding:2px 6px;
+  border-radius:20px;
+  display:inline-block;
+  margin-top:4px;
+}
+.tag-active{background:var(--green-soft);color:var(--green);}
+.tag-lapsed{background:var(--red-soft);color:var(--red);}
+.tag-matured{background:var(--silver-soft);color:var(--silver);}
+
+.entry-value{text-align:right;font-family:'IBM Plex Mono', monospace;font-weight:600;font-size:15px;}
+.entry-value small{display:block;font-family:'IBM Plex Sans',sans-serif;font-weight:400;font-size:10.5px;color:var(--muted);}
+
+.entry-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px 14px;
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+.entry-grid div{font-size:12.5px;color:var(--muted);}
+.entry-grid strong{display:block;color:var(--ink);font-weight:500;font-size:13px;margin-top:1px;}
+
+.entry-gain{font-size:12px;margin-top:8px;}
+.gain-up{color:var(--green);}
+.gain-down{color:var(--red);}
+
+.entry-actions{display:flex;gap:14px;margin-top:10px;}
+.entry-actions button{
+  background:none;border:none;padding:0;
+  font-family:inherit;font-size:12px;color:var(--muted);
+  cursor:pointer;text-decoration:underline;
+}
+.entry-actions button.danger:hover{color:var(--red);}
+.entry-actions button:hover{color:var(--ink);}
+
+.empty{
+  text-align:center;
+  padding:40px 20px;
+  color:var(--muted);
+  font-size:13.5px;
+}
+.empty span{display:block;font-family:'Fraunces',serif;font-size:26px;color:var(--line);margin-bottom:6px;}
+
+/* ---- Form (modal-ish inline) ---- */
+.form-card{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:14px;
+}
+.form-card h3{
+  font-family:'Fraunces',serif;
+  font-size:16px;
+  margin:0 0 12px;
+  font-weight:600;
+}
+.field{margin-bottom:10px;}
+.field label{
+  display:block;
+  font-size:11.5px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+.field input, .field select{
+  width:100%;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--paper);
+  color:var(--ink);
+  font-family:inherit;
+  font-size:14px;
+}
+.field input:focus, .field select:focus{
+  outline:2px solid var(--gold);
+  outline-offset:-1px;
+}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-actions{display:flex;gap:10px;margin-top:14px;}
+.btn{
+  flex:1;
+  padding:11px;
+  border-radius:var(--radius);
+  border:none;
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:500;
+  cursor:pointer;
+}
+.btn-primary{background:var(--ink);color:var(--paper);}
+.btn-secondary{background:none;border:1px solid var(--line);color:var(--muted);}
+
+.filter-bar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 0 4px;
+  font-size:12.5px;
+  color:var(--muted);
+}
+.filter-bar select{
+  flex:1;
+  max-width:220px;
+  padding:7px 9px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:var(--paper-raised);
+  color:var(--ink);
+  font-family:inherit;
+  font-size:13px;
+}
+.filter-bar select:focus{
+  outline:2px solid var(--gold);
+  outline-offset:-1px;
+}
+
+/* ---- Charts ---- */
+.charts-row{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:14px;
+}
+.donut-wrap{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  flex-wrap:wrap;
+}
+.donut{
+  width:118px;height:118px;border-radius:50%;
+  position:relative;
+  flex:0 0 auto;
+}
+.donut-hole{
+  position:absolute;
+  inset:14px;
+  border-radius:50%;
+  background:var(--paper-raised);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+  font-weight:600;
+  text-align:center;
+  padding:4px;
+}
+.donut-hole small{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:400;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.donut-legend{flex:1;min-width:150px;}
+.donut-legend div{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:12.5px;
+  margin-bottom:7px;
+}
+.dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;display:inline-block;}
+.ll-label{flex:1;color:var(--ink);}
+.ll-val{font-family:'IBM Plex Mono', monospace;font-size:11.5px;color:var(--muted);}
+
+.prem-card{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+}
+.prem-bar{
+  height:10px;
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  margin:12px 0 12px;
+}
+.prem-seg{height:100%;}
+.prem-seg.paid{background:var(--green);}
+.prem-seg.pending{background:var(--red);}
+.prem-rows div{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:12.5px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.prem-rows strong{
+  margin-left:auto;
+  font-family:'IBM Plex Mono', monospace;
+  color:var(--ink);
+  font-weight:500;
+  font-size:13px;
+}
+
+.owner-card{
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:16px;
+}
+.owner-empty{
+  font-size:12.5px;
+  color:var(--muted);
+  margin-top:8px;
+}
+.owner-rows{margin-top:12px;}
+.owner-row{margin-bottom:12px;}
+.owner-row:last-child{margin-bottom:0;}
+.owner-row-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  font-size:13px;
+  margin-bottom:5px;
+}
+.owner-row-top span{color:var(--ink);font-weight:500;}
+.owner-row-top strong{
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:600;
+  font-size:13px;
+}
+.owner-row-track{
+  height:7px;
+  background:var(--line);
+  border-radius:20px;
+  overflow:hidden;
+}
+.owner-row-fill{height:100%;border-radius:20px;}
+
+/* ---- Dashboard ---- */
+.dashboard{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding-top:4px;
+}
+@media (max-width:420px){
+  .dashboard{grid-template-columns:1fr;}
+}
+.dash-card{
+  --accent: var(--gold);
+  background:var(--paper-raised);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius);
+  padding:14px 15px;
+  box-shadow:var(--shadow);
+}
+.dash-card-title{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.dash-card-amt{
+  font-family:'Fraunces', serif;
+  font-size:24px;
+  font-weight:600;
+  line-height:1.1;
+}
+.dash-card-label{
+  font-size:11.5px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.dash-card-rows{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+.dash-card-rows div{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+.dash-card-rows strong{
+  color:var(--ink);
+  font-weight:500;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+}
+
+/* ---- Footer ---- */
+.footer{
+  max-width:720px;margin:20px auto 0;padding:16px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11.5px;color:var(--muted);
+  flex-wrap:wrap;gap:8px;
+}
+.footer button{
+  background:none;border:1px solid var(--line);
+  padding:7px 12px;border-radius:var(--radius);
+  font-family:inherit;font-size:11.5px;color:var(--muted);cursor:pointer;
+}
+.toast{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);
+  padding:10px 18px;border-radius:20px;font-size:12.5px;
+  opacity:0;pointer-events:none;transition:opacity .25s ease;
+  z-index:50;
+}
+.toast.show{opacity:1;}
+
+.db-banner{
+  background:var(--red-soft);
+  color:var(--red);
+  font-size:12.5px;
+  padding:10px 16px;
+  text-align:center;
+  border-bottom:1px solid var(--line);
+}
+.db-banner.connected{
+  background:var(--green-soft);
+  color:var(--green);
+}
+
+</style>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-inner">
+    <p class="cover-eyebrow">ASSET REGISTER</p>
+    <h1>Everything I own, in one ledger</h1>
+    <div class="cover-total">
+      <span class="amt" id="netWorth">₹0</span>
+      <span class="label">current portfolio value</span>
+    </div>
+    <div class="cover-sub">
+      <div>LIC + Insurance cover<strong id="sumCover">₹0</strong></div>
+      <div>Annual premium<strong id="sumPremium">₹0</strong></div>
+      <div>Overall gain/loss<strong id="sumGain">₹0</strong></div>
+    </div>
+  </div>
+</div>
+
+<div id="dbBanner" class="db-banner" style="display:none;"></div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="wrap">
+  <div id="sections"></div>
+
+  <div class="footer">
+    <span id="lastSaved">Nothing saved yet</span>
+    <div style="display:flex;gap:8px;">
+      <button id="exportBtn">Export backup</button>
+      <button id="importBtn">Import backup</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept="application/json" style="display:none;">
+
+<script>
+(function(){
+  "use strict";
+
+  // ============================================================
+  // FIREBASE CONFIG — paste your own project's values here.
+  // Get these from: Firebase Console → Project Settings → General
+  // → "Your apps" → Web app → SDK setup and configuration.
+  // Leave as-is (with the placeholder text) and the app will run
+  // on local browser storage only, same as before.
+  // ============================================================
+  var FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCw0OhO42WzRUcAjvB5mFw-yDYGbaaR-0Y",
+    authDomain: "family-networth-39232.firebaseapp.com",
+    projectId: "family-networth-39232",
+    storageBucket: "family-networth-39232.firebasestorage.app",
+    messagingSenderId: "143327292520",
+    appId: "1:143327292520:web:2d545097f90606dffc1fdd"
+  };
+  // Firestore document path where all data is stored — change the
+  // second segment if you want multiple separate registers
+  // (e.g. "registers/dad-family") on the same Firebase project.
+  var FIRESTORE_DOC_PATH = ["registers", "family"];
+
+  var firebaseReady = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
+  var fsDoc = null;
+  var fsUnsubscribe = null;
+
+  if(firebaseReady){
+    try{
+      firebase.initializeApp(FIREBASE_CONFIG);
+      var fsDb = firebase.firestore();
+      fsDoc = fsDb.collection(FIRESTORE_DOC_PATH[0]).doc(FIRESTORE_DOC_PATH[1]);
+    }catch(err){
+      console.error("Firebase init failed", err);
+      firebaseReady = false;
+    }
+  }
+
+  var CATS = {
+    lic: {
+      label:"LIC Policies",
+      fields:[
+        {key:"name",label:"Policy name",type:"text",required:true,placeholder:"e.g. Jeevan Anand"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"number",label:"Policy number",type:"text",placeholder:"e.g. 123456789"},
+        {key:"sumAssured",label:"Sum assured (₹)",type:"number",required:true},
+        {key:"maturityAmount",label:"Expected maturity amount (₹)",type:"number",placeholder:"incl. bonus, if known"},
+        {key:"premium",label:"Annual premium (₹)",type:"number"},
+        {key:"maturityDate",label:"Maturity date",type:"date"},
+        {key:"paidThisYear",label:"Premium paid this year?",type:"select",options:["No","Yes"]},
+        {key:"status",label:"Status",type:"select",options:["Active","Lapsed","Matured"]}
+      ]
+    },
+    insurance: {
+      label:"Insurance",
+      fields:[
+        {key:"name",label:"Policy name",type:"text",required:true,placeholder:"e.g. Health cover - Star"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"type",label:"Type",type:"select",options:["Health","Term Life","Vehicle","Home","Other"]},
+        {key:"sumAssured",label:"Coverage amount (₹)",type:"number",required:true},
+        {key:"premium",label:"Annual premium (₹)",type:"number"},
+        {key:"renewalDate",label:"Renewal date",type:"date"},
+        {key:"paidThisYear",label:"Premium paid this year?",type:"select",options:["No","Yes"]},
+        {key:"status",label:"Status",type:"select",options:["Active","Lapsed"]}
+      ]
+    },
+    shares: {
+      label:"Shares",
+      fields:[
+        {key:"name",label:"Company / stock",type:"text",required:true,placeholder:"e.g. Reliance Industries"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"qty",label:"Quantity",type:"number",required:true},
+        {key:"buyPrice",label:"Buy price / share (₹)",type:"number",required:true},
+        {key:"currentPrice",label:"Current price / share (₹)",type:"number",required:true}
+      ]
+    },
+    mutualfunds: {
+      label:"Mutual Funds",
+      fields:[
+        {key:"name",label:"Fund name",type:"text",required:true,placeholder:"e.g. Parag Parikh Flexi Cap"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"units",label:"Units held",type:"number",required:true},
+        {key:"buyNAV",label:"Buy NAV / unit (₹)",type:"number",required:true},
+        {key:"currentNAV",label:"Current NAV / unit (₹)",type:"number",required:true}
+      ]
+    },
+    bonds: {
+      label:"Bonds",
+      fields:[
+        {key:"name",label:"Bond name / issuer",type:"text",required:true,placeholder:"e.g. NHAI 54EC, RBI Floating Rate"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"units",label:"Quantity / units",type:"number",required:true},
+        {key:"buyPrice",label:"Buy price / unit (₹)",type:"number",required:true},
+        {key:"currentPrice",label:"Current price / unit (₹)",type:"number",required:true},
+        {key:"interestRate",label:"Interest rate (%)",type:"number"},
+        {key:"maturityDate",label:"Maturity date",type:"date"}
+      ]
+    },
+    gold: {
+      label:"Gold",
+      fields:[
+        {key:"name",label:"Item",type:"text",required:true,placeholder:"e.g. Necklace, coins"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"purity",label:"Purity",type:"select",options:["24K","22K","18K"]},
+        {key:"weight",label:"Weight (grams)",type:"number",required:true},
+        {key:"buyPrice",label:"Buy price / gram (₹)",type:"number",required:true},
+        {key:"currentPrice",label:"Current price / gram (₹)",type:"number",required:true}
+      ]
+    },
+    silver: {
+      label:"Silver",
+      fields:[
+        {key:"name",label:"Item",type:"text",required:true,placeholder:"e.g. Coins, utensils"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"weight",label:"Weight (grams)",type:"number",required:true},
+        {key:"buyPrice",label:"Buy price / gram (₹)",type:"number",required:true},
+        {key:"currentPrice",label:"Current price / gram (₹)",type:"number",required:true}
+      ]
+    }
+  };
+  var ORDER = ["lic","insurance","shares","mutualfunds","bonds","gold","silver"];
+  var TABS = ["dashboard"].concat(ORDER);
+  var TAB_LABELS = {dashboard:"Dashboard"};
+  var STORAGE_KEY = "assetRegister_v1";
+  var data = {lic:[],insurance:[],shares:[],mutualfunds:[],bonds:[],gold:[],silver:[]};
+  var activeTab = "dashboard";
+  var editing = null; // {cat, id} or null
+  var ownerFilter = ""; // "" = all family members
+
+  function showDbBanner(text, connected){
+    var b = document.getElementById("dbBanner");
+    if(!b) return;
+    b.style.display = "block";
+    b.textContent = text;
+    b.className = "db-banner" + (connected ? " connected" : "");
+  }
+
+  function loadDataLocal(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        var parsed = JSON.parse(raw);
+        ORDER.forEach(function(c){ if(Array.isArray(parsed[c])) data[c]=parsed[c]; });
+        var ts = localStorage.getItem(STORAGE_KEY+"_ts");
+        if(ts) document.getElementById("lastSaved").textContent = "Saved " + new Date(ts).toLocaleString();
+      }
+    }catch(e){ console.error("Load failed", e); }
+  }
+
+  function saveDataLocal(){
+    try{
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      var now = new Date().toISOString();
+      localStorage.setItem(STORAGE_KEY+"_ts", now);
+      document.getElementById("lastSaved").textContent = "Saved " + new Date(now).toLocaleString();
+    }catch(e){ console.error("Save failed", e); showToast("Could not save — storage may be full"); }
+  }
+
+  // loadData(): local storage mode loads synchronously and calls render()
+  // itself via the caller at the bottom of the file. Firestore mode instead
+  // opens a live subscription — every change, from this tab or any other
+  // device/family member, pushes fresh data in and calls render() again.
+  function loadData(){
+    if(!firebaseReady){
+      showDbBanner("Not connected to a database — saving to this browser only. See the FIREBASE_CONFIG comment near the top of the file.", false);
+      loadDataLocal();
+      return;
+    }
+    showDbBanner("Connecting to database…", false);
+    fsUnsubscribe = fsDoc.onSnapshot(function(snap){
+      var d = snap.data();
+      if(d){
+        ORDER.forEach(function(c){ data[c] = Array.isArray(d[c]) ? d[c] : []; });
+      }
+      showDbBanner("Connected — synced live with everyone using this database", true);
+      var now = new Date();
+      document.getElementById("lastSaved").textContent = "Synced " + now.toLocaleTimeString();
+      render();
+    }, function(err){
+      console.error("Firestore read failed", err);
+      showDbBanner("Database connection failed (" + err.code + ") — check FIREBASE_CONFIG and Firestore rules. Falling back to this browser only.", false);
+      loadDataLocal();
+      render();
+    });
+  }
+
+  function saveData(){
+    if(!firebaseReady){
+      saveDataLocal();
+      return;
+    }
+    // fire-and-forget: local render() already reflects the change instantly;
+    // this pushes it to the shared database, and the onSnapshot listener
+    // above will confirm it (and relay it to every other open device).
+    fsDoc.set(data).catch(function(err){
+      console.error("Firestore write failed", err);
+      showToast("Could not save to database — check your connection");
+    });
+  }
+
+
+  function fmt(n){
+    n = Number(n)||0;
+    return "₹" + n.toLocaleString('en-IN', {maximumFractionDigits:0});
+  }
+
+  function uid(){ return Math.random().toString(36).slice(2,10); }
+
+  function currentValue(cat, e){
+    if(cat==="shares") return (Number(e.qty)||0) * (Number(e.currentPrice)||0);
+    if(cat==="mutualfunds") return (Number(e.units)||0) * (Number(e.currentNAV)||0);
+    if(cat==="bonds") return (Number(e.units)||0) * (Number(e.currentPrice)||0);
+    if(cat==="gold" || cat==="silver") return (Number(e.weight)||0) * (Number(e.currentPrice)||0);
+    return Number(e.sumAssured)||0; // lic/insurance: coverage, not liquid value
+  }
+  function licPayout(e){
+    // what you can actually expect to receive: maturity amount if entered, else sum assured
+    return Number(e.maturityAmount) || Number(e.sumAssured) || 0;
+  }
+  function premiumStatusTotals(){
+    var paid=0, pending=0;
+    ["lic","insurance"].forEach(function(cat){
+      filteredList(cat).forEach(function(e){
+        var p = Number(e.premium)||0;
+        if(!p) return;
+        if(e.paidThisYear==="Yes") paid+=p; else pending+=p;
+      });
+    });
+    return {paid:paid, pending:pending, total:paid+pending};
+  }
+  function ownerValue(cat, e){
+    // "how much this entry is worth to whoever owns it"
+    if(cat==="lic") return licPayout(e);
+    if(cat==="insurance") return Number(e.sumAssured)||0;
+    return currentValue(cat, e);
+  }
+  function computeByOwner(){
+    var byOwner = {};
+    ORDER.forEach(function(cat){
+      filteredList(cat).forEach(function(e){
+        var owner = (e.owner||"").trim() || "Unassigned";
+        if(!byOwner[owner]) byOwner[owner] = 0;
+        byOwner[owner] += ownerValue(cat, e);
+      });
+    });
+    var list = Object.keys(byOwner).map(function(k){ return {name:k, total:byOwner[k]}; });
+    list.sort(function(a,b){ return b.total - a.total; });
+    return list;
+  }
+  function investedValue(cat, e){
+    if(cat==="shares") return (Number(e.qty)||0) * (Number(e.buyPrice)||0);
+    if(cat==="mutualfunds") return (Number(e.units)||0) * (Number(e.buyNAV)||0);
+    if(cat==="bonds") return (Number(e.units)||0) * (Number(e.buyPrice)||0);
+    if(cat==="gold" || cat==="silver") return (Number(e.weight)||0) * (Number(e.buyPrice)||0);
+    return null;
+  }
+
+  function getOwners(){
+    var set = {};
+    ORDER.forEach(function(cat){
+      data[cat].forEach(function(e){
+        var o = (e.owner||"").trim();
+        if(o) set[o]=true;
+      });
+    });
+    return Object.keys(set).sort();
+  }
+  function filteredList(cat){
+    if(!ownerFilter) return data[cat];
+    return data[cat].filter(function(e){ return (e.owner||"").trim()===ownerFilter; });
+  }
+
+  function computeTotals(){
+    var netWorth=0, cover=0, premium=0, invested=0, marketVal=0;
+    ORDER.forEach(function(cat){
+      filteredList(cat).forEach(function(e){
+        if(cat==="shares"||cat==="mutualfunds"||cat==="bonds"||cat==="gold"||cat==="silver"){
+          netWorth += currentValue(cat,e);
+          var inv = investedValue(cat,e);
+          if(inv!==null){ invested += inv; marketVal += currentValue(cat,e); }
+        } else {
+          cover += Number(e.sumAssured)||0;
+          premium += Number(e.premium)||0;
+        }
+      });
+    });
+    document.getElementById("netWorth").textContent = fmt(netWorth);
+    document.getElementById("sumCover").textContent = fmt(cover);
+    document.getElementById("sumPremium").textContent = fmt(premium);
+    var gain = marketVal - invested;
+    var gainEl = document.getElementById("sumGain");
+    gainEl.textContent = (gain>=0?"+":"") + fmt(gain);
+    gainEl.style.color = gain>=0 ? "var(--green)" : "var(--red)";
+  }
+
+  function tagClass(status){
+    if(status==="Lapsed") return "tag-lapsed";
+    if(status==="Matured") return "tag-matured";
+    return "tag-active";
+  }
+
+  function buildTabs(){
+    var tabsEl = document.getElementById("tabs");
+    tabsEl.innerHTML = "";
+    TABS.forEach(function(cat){
+      var btn = document.createElement("button");
+      btn.className = "tab" + (cat===activeTab?" active":"");
+      btn.textContent = TAB_LABELS[cat] || CATS[cat].label;
+      btn.onclick = function(){ activeTab = cat; editing=null; render(); };
+      tabsEl.appendChild(btn);
+    });
+  }
+
+  function buildDonut(segments){
+    // segments: [{label,value,colorVar}]
+    var total = segments.reduce(function(s,x){return s+x.value;},0);
+    var wrap = document.createElement("div");
+    wrap.className = "donut-wrap";
+
+    var ring = document.createElement("div");
+    ring.className = "donut";
+    if(total<=0){
+      ring.style.background = "var(--line)";
+    } else {
+      var acc=0, stops=[];
+      segments.forEach(function(seg){
+        if(seg.value<=0) return;
+        var start = acc/total*360;
+        acc += seg.value;
+        var end = acc/total*360;
+        stops.push("var(" + seg.colorVar + ") " + start.toFixed(1) + "deg " + end.toFixed(1) + "deg");
+      });
+      ring.style.background = "conic-gradient(" + stops.join(", ") + ")";
+    }
+    var hole = document.createElement("div");
+    hole.className = "donut-hole";
+    hole.innerHTML = total>0 ? fmt(total) + "<small>total</small>" : "<small>No data yet</small>";
+    ring.appendChild(hole);
+    wrap.appendChild(ring);
+
+    var legend = document.createElement("div");
+    legend.className = "donut-legend";
+    segments.forEach(function(seg){
+      var row = document.createElement("div");
+      var pct = total>0 ? (seg.value/total*100) : 0;
+      row.innerHTML = '<span class="dot" style="background:var(' + seg.colorVar + ')"></span>' +
+        '<span class="ll-label">' + seg.label + '</span>' +
+        '<span class="ll-val">' + fmt(seg.value) + ' &middot; ' + pct.toFixed(0) + '%</span>';
+      legend.appendChild(row);
+    });
+    wrap.appendChild(legend);
+    return wrap;
+  }
+
+  function buildPremiumBar(){
+    var t = premiumStatusTotals();
+    var wrap = document.createElement("div");
+    wrap.className = "prem-card";
+    var h = document.createElement("div");
+    h.className = "dash-card-title";
+    h.textContent = "This year's premiums — LIC + Insurance";
+    wrap.appendChild(h);
+
+    var bar = document.createElement("div");
+    bar.className = "prem-bar";
+    if(t.total>0){
+      var paidPct = t.paid/t.total*100;
+      var pendPct = 100-paidPct;
+      var paidSeg = document.createElement("div");
+      paidSeg.className = "prem-seg paid";
+      paidSeg.style.width = paidPct + "%";
+      var pendSeg = document.createElement("div");
+      pendSeg.className = "prem-seg pending";
+      pendSeg.style.width = pendPct + "%";
+      bar.appendChild(paidSeg);
+      bar.appendChild(pendSeg);
+    } else {
+      bar.style.background = "var(--line)";
+    }
+    wrap.appendChild(bar);
+
+    var rows = document.createElement("div");
+    rows.className = "prem-rows";
+    rows.innerHTML =
+      '<div><span class="dot" style="background:var(--green)"></span>Paid<strong>' + fmt(t.paid) + '</strong></div>' +
+      '<div><span class="dot" style="background:var(--red)"></span>Pending<strong>' + fmt(t.pending) + '</strong></div>' +
+      '<div><span class="dot" style="background:var(--muted)"></span>Total due<strong>' + fmt(t.total) + '</strong></div>';
+    wrap.appendChild(rows);
+    return wrap;
+  }
+
+  function buildOwnerBreakdown(){
+    var list = computeByOwner();
+    var wrap = document.createElement("div");
+    wrap.className = "owner-card";
+    var h = document.createElement("div");
+    h.className = "dash-card-title";
+    h.textContent = "By family member — what each person gets";
+    wrap.appendChild(h);
+
+    if(list.length===0 || (list.length===1 && list[0].total===0)){
+      var empty = document.createElement("div");
+      empty.className = "owner-empty";
+      empty.textContent = "Add a family member name on any entry to see this broken down by person.";
+      wrap.appendChild(empty);
+      return wrap;
+    }
+
+    var max = list.reduce(function(m,x){ return Math.max(m,x.total); },0) || 1;
+    var colors = ["--gold","--green","--blue","--teal","--silver","--red"];
+    var rows = document.createElement("div");
+    rows.className = "owner-rows";
+    list.forEach(function(o,i){
+      var row = document.createElement("div");
+      row.className = "owner-row";
+      var pct = max>0 ? (o.total/max*100) : 0;
+      var color = colors[i % colors.length];
+      row.innerHTML =
+        '<div class="owner-row-top"><span>' + o.name + '</span><strong>' + fmt(o.total) + '</strong></div>' +
+        '<div class="owner-row-track"><div class="owner-row-fill" style="width:' + pct + '%;background:var(' + color + ')"></div></div>';
+      rows.appendChild(row);
+    });
+    wrap.appendChild(rows);
+    return wrap;
+  }
+
+  function dashboardCard(title, big, bigLabel, rows, accentVar){
+    var card = document.createElement("div");
+    card.className = "dash-card";
+    if(accentVar) card.style.setProperty("--accent", "var("+accentVar+")");
+    var h = document.createElement("div");
+    h.className = "dash-card-title";
+    h.textContent = title;
+    card.appendChild(h);
+    var amt = document.createElement("div");
+    amt.className = "dash-card-amt";
+    amt.textContent = big;
+    card.appendChild(amt);
+    var lbl = document.createElement("div");
+    lbl.className = "dash-card-label";
+    lbl.textContent = bigLabel;
+    card.appendChild(lbl);
+    if(rows && rows.length){
+      var rowsWrap = document.createElement("div");
+      rowsWrap.className = "dash-card-rows";
+      rows.forEach(function(r){
+        var rd = document.createElement("div");
+        rd.innerHTML = "<span>"+r[0]+"</span><strong>"+r[1]+"</strong>";
+        rowsWrap.appendChild(rd);
+      });
+      card.appendChild(rowsWrap);
+    }
+    return card;
+  }
+
+  function renderDashboard(container){
+    var licList0 = filteredList("lic"), insList0 = filteredList("insurance");
+    var shList0 = filteredList("shares"), mfList0 = filteredList("mutualfunds"), bnList0 = filteredList("bonds"), goList0 = filteredList("gold"), siList0 = filteredList("silver");
+    var licVal0 = licList0.reduce(function(s,e){return s+licPayout(e);},0);
+    var insVal0 = insList0.reduce(function(s,e){return s+(Number(e.sumAssured)||0);},0);
+    var shVal0 = shList0.reduce(function(s,e){return s+currentValue("shares",e);},0);
+    var mfVal0 = mfList0.reduce(function(s,e){return s+currentValue("mutualfunds",e);},0);
+    var bnVal0 = bnList0.reduce(function(s,e){return s+currentValue("bonds",e);},0);
+    var goVal0 = goList0.reduce(function(s,e){return s+currentValue("gold",e);},0);
+    var siVal0 = siList0.reduce(function(s,e){return s+currentValue("silver",e);},0);
+
+    var chartsRow = document.createElement("div");
+    chartsRow.className = "charts-row";
+    chartsRow.appendChild(buildDonut([
+      {label:"LIC", value:licVal0, colorVar:"--amber"},
+      {label:"Insurance", value:insVal0, colorVar:"--rose"},
+      {label:"Shares", value:shVal0, colorVar:"--green"},
+      {label:"Mutual Funds", value:mfVal0, colorVar:"--blue"},
+      {label:"Bonds", value:bnVal0, colorVar:"--teal"},
+      {label:"Gold", value:goVal0, colorVar:"--gold"},
+      {label:"Silver", value:siVal0, colorVar:"--silver"}
+    ]));
+    chartsRow.appendChild(buildPremiumBar());
+    if(!ownerFilter) chartsRow.appendChild(buildOwnerBreakdown());
+    container.appendChild(chartsRow);
+
+    var wrap = document.createElement("div");
+    wrap.className = "dashboard";
+
+    // LIC
+    var licList = licList0;
+    var licPayoutTotal = licVal0;
+    var licCover = licList.reduce(function(s,e){return s+(Number(e.sumAssured)||0);},0);
+    var licPremium = licList.reduce(function(s,e){return s+(Number(e.premium)||0);},0);
+    wrap.appendChild(dashboardCard(
+      "LIC policies — what you can get", fmt(licPayoutTotal), licList.length + " " + (licList.length===1?"policy":"policies"),
+      [["Sum assured (base)", fmt(licCover)], ["Annual premium outgo", fmt(licPremium)]],
+      "--amber"
+    ));
+
+    // Insurance
+    var insList = insList0;
+    var insCover = insVal0;
+    var insPremium = insList.reduce(function(s,e){return s+(Number(e.premium)||0);},0);
+    wrap.appendChild(dashboardCard(
+      "Insurance cover", fmt(insCover), insList.length + " " + (insList.length===1?"policy":"policies"),
+      [["Annual premium outgo", fmt(insPremium)]],
+      "--rose"
+    ));
+
+    // Shares
+    var shList = shList0;
+    var shVal = shVal0;
+    var shInv = shList.reduce(function(s,e){return s+investedValue("shares",e);},0);
+    wrap.appendChild(dashboardCard(
+      "Shares — current worth", fmt(shVal), shList.length + " " + (shList.length===1?"holding":"holdings"),
+      [["Invested", fmt(shInv)], ["Gain / loss", (shVal-shInv>=0?"+":"")+fmt(shVal-shInv)]],
+      "--green"
+    ));
+
+    // Mutual Funds
+    var mfList = mfList0;
+    var mfVal = mfVal0;
+    var mfInv = mfList.reduce(function(s,e){return s+investedValue("mutualfunds",e);},0);
+    wrap.appendChild(dashboardCard(
+      "Mutual funds — current worth", fmt(mfVal), mfList.length + " " + (mfList.length===1?"fund":"funds"),
+      [["Invested", fmt(mfInv)], ["Gain / loss", (mfVal-mfInv>=0?"+":"")+fmt(mfVal-mfInv)]],
+      "--blue"
+    ));
+
+    // Bonds
+    var bnList = bnList0;
+    var bnVal = bnVal0;
+    var bnInv = bnList.reduce(function(s,e){return s+investedValue("bonds",e);},0);
+    wrap.appendChild(dashboardCard(
+      "Bonds — current worth", fmt(bnVal), bnList.length + " " + (bnList.length===1?"holding":"holdings"),
+      [["Invested", fmt(bnInv)], ["Gain / loss", (bnVal-bnInv>=0?"+":"")+fmt(bnVal-bnInv)]],
+      "--teal"
+    ));
+
+    // Gold
+    var goList = goList0;
+    var goVal = goVal0;
+    var goInv = goList.reduce(function(s,e){return s+investedValue("gold",e);},0);
+    var goWeight = goList.reduce(function(s,e){return s+(Number(e.weight)||0);},0);
+    wrap.appendChild(dashboardCard(
+      "Gold — current worth", fmt(goVal), goWeight + " g total",
+      [["Invested", fmt(goInv)], ["Gain / loss", (goVal-goInv>=0?"+":"")+fmt(goVal-goInv)]],
+      "--gold"
+    ));
+
+    // Silver
+    var siList = siList0;
+    var siVal = siVal0;
+    var siInv = siList.reduce(function(s,e){return s+investedValue("silver",e);},0);
+    var siWeight = siList.reduce(function(s,e){return s+(Number(e.weight)||0);},0);
+    wrap.appendChild(dashboardCard(
+      "Silver — current worth", fmt(siVal), siWeight + " g total",
+      [["Invested", fmt(siInv)], ["Gain / loss", (siVal-siInv>=0?"+":"")+fmt(siVal-siInv)]],
+      "--silver"
+    ));
+
+    container.appendChild(wrap);
+
+    if(licList.length+insList.length+shList.length+mfList.length+bnList.length+goList.length+siList.length===0){
+      var empty = document.createElement("div");
+      empty.className = "empty";
+      empty.innerHTML = "<span>—</span>" + (ownerFilter ? "Nothing for " + ownerFilter + " yet" : "Add your policies and holdings in the tabs above to see them here");
+      container.appendChild(empty);
+    }
+  }
+
+
+  function subtotalLabel(cat){
+    var list = filteredList(cat);
+    if(cat==="lic"||cat==="insurance"){
+      var cover = list.reduce(function(s,e){return s+(Number(e.sumAssured)||0);},0);
+      return {main: fmt(cover), sub:"total cover"};
+    } else {
+      var val = list.reduce(function(s,e){return s+currentValue(cat,e);},0);
+      return {main: fmt(val), sub:"current value"};
+    }
+  }
+
+  function entryCard(cat, e){
+    var def = CATS[cat];
+    var div = document.createElement("div");
+    div.className = "entry";
+
+    var top = document.createElement("div");
+    top.className = "entry-top";
+
+    var left = document.createElement("div");
+    var nm = document.createElement("div");
+    nm.className = "entry-name";
+    nm.textContent = e.name || "(untitled)";
+    left.appendChild(nm);
+    if(e.owner){
+      var ownerLine = document.createElement("div");
+      ownerLine.className = "entry-owner";
+      ownerLine.textContent = e.owner;
+      left.appendChild(ownerLine);
+    }
+    if(e.status){
+      var tag = document.createElement("span");
+      tag.className = "entry-tag " + tagClass(e.status);
+      tag.textContent = e.status;
+      left.appendChild(tag);
+    }
+    top.appendChild(left);
+
+    var right = document.createElement("div");
+    right.className = "entry-value";
+    if(cat==="lic"||cat==="insurance"){
+      right.innerHTML = fmt(e.sumAssured) + "<small>cover</small>";
+    } else {
+      right.innerHTML = fmt(currentValue(cat,e)) + "<small>current value</small>";
+    }
+    top.appendChild(right);
+    div.appendChild(top);
+
+    var grid = document.createElement("div");
+    grid.className = "entry-grid";
+    def.fields.forEach(function(f){
+      if(f.key==="name"||f.key==="status"||f.key==="owner") return;
+      if(!e[f.key]) return;
+      var d = document.createElement("div");
+      var displayVal = e[f.key];
+      if(f.type==="number" && (f.key==="buyPrice"||f.key==="currentPrice"||f.key==="premium"||f.key==="maturityAmount"||f.key==="sumAssured"||f.key==="buyNAV"||f.key==="currentNAV")) displayVal = fmt(e[f.key]);
+      if(f.type==="number" && f.key==="weight") displayVal = e[f.key]+" g";
+      if(f.type==="number" && f.key==="qty") displayVal = e[f.key]+" shares";
+      if(f.type==="number" && f.key==="units") displayVal = e[f.key]+" units";
+      if(f.type==="number" && f.key==="interestRate") displayVal = e[f.key]+"%";
+      d.innerHTML = f.label + "<strong>" + displayVal + "</strong>";
+      grid.appendChild(d);
+    });
+    if(grid.children.length) div.appendChild(grid);
+
+    if(cat==="shares"||cat==="mutualfunds"||cat==="bonds"||cat==="gold"||cat==="silver"){
+      var inv = investedValue(cat,e);
+      var val = currentValue(cat,e);
+      var gain = val - inv;
+      var pct = inv ? (gain/inv*100) : 0;
+      var g = document.createElement("div");
+      g.className = "entry-gain " + (gain>=0?"gain-up":"gain-down");
+      g.textContent = (gain>=0?"+":"") + fmt(gain) + " (" + (gain>=0?"+":"") + pct.toFixed(1) + "%) vs invested " + fmt(inv);
+      div.appendChild(g);
+    }
+
+    var actions = document.createElement("div");
+    actions.className = "entry-actions";
+    var editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.onclick = function(){ editing={cat:cat,id:e.id}; render(); window.scrollTo({top:0,behavior:"smooth"}); };
+    var delBtn = document.createElement("button");
+    delBtn.textContent = "Delete";
+    delBtn.className = "danger";
+    delBtn.onclick = function(){
+      if(confirm('Delete "' + (e.name||"this entry") + '"? This cannot be undone.')){
+        data[cat] = data[cat].filter(function(x){return x.id!==e.id;});
+        saveData(); render();
+        showToast("Deleted");
+      }
+    };
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+    div.appendChild(actions);
+
+    return div;
+  }
+
+  function buildForm(cat, existing){
+    var def = CATS[cat];
+    var card = document.createElement("div");
+    card.className = "form-card";
+    var h3 = document.createElement("h3");
+    h3.textContent = existing ? "Edit entry" : "Add " + def.label.toLowerCase().replace(/s$/,'').replace('lic policie','LIC policy');
+    card.appendChild(h3);
+
+    var inputs = {};
+    var rowBuffer = [];
+    function flushRow(){
+      if(rowBuffer.length===0) return;
+      if(rowBuffer.length===1){ card.appendChild(rowBuffer[0]); }
+      else {
+        var row = document.createElement("div");
+        row.className = "field-row";
+        rowBuffer.forEach(function(f){ row.appendChild(f); });
+        card.appendChild(row);
+      }
+      rowBuffer = [];
+    }
+
+    def.fields.forEach(function(f){
+      var wrap = document.createElement("div");
+      wrap.className = "field";
+      var label = document.createElement("label");
+      label.textContent = f.label + (f.required?" *":"");
+      wrap.appendChild(label);
+      var input;
+      if(f.type==="select"){
+        input = document.createElement("select");
+        f.options.forEach(function(o){
+          var opt = document.createElement("option");
+          opt.value=o; opt.textContent=o;
+          input.appendChild(opt);
+        });
+      } else {
+        input = document.createElement("input");
+        input.type = f.type;
+        if(f.placeholder) input.placeholder = f.placeholder;
+        if(f.type==="number"){ input.step="any"; input.min="0"; }
+      }
+      if(existing && existing[f.key]!==undefined) input.value = existing[f.key];
+      wrap.appendChild(input);
+      inputs[f.key] = input;
+      if(f.type==="date" || f.type==="select" || (f.type==="number")) rowBuffer.push(wrap);
+      else { flushRow(); card.appendChild(wrap); }
+      if(rowBuffer.length===2) flushRow();
+    });
+    flushRow();
+
+    var actions = document.createElement("div");
+    actions.className = "form-actions";
+    var saveBtn = document.createElement("button");
+    saveBtn.className = "btn btn-primary";
+    saveBtn.textContent = existing ? "Save changes" : "Add entry";
+    saveBtn.onclick = function(){
+      var record = existing ? Object.assign({}, existing) : {id: uid()};
+      var missing = false;
+      def.fields.forEach(function(f){
+        var v = inputs[f.key].value;
+        if(f.required && !v){ missing = true; inputs[f.key].style.outline="2px solid var(--red)"; }
+        else inputs[f.key].style.outline="";
+        record[f.key] = v;
+      });
+      if(missing){ showToast("Please fill required fields"); return; }
+      if(existing){
+        var idx = data[cat].findIndex(function(x){return x.id===existing.id;});
+        data[cat][idx] = record;
+        showToast("Entry updated");
+      } else {
+        data[cat].push(record);
+        showToast("Entry added");
+      }
+      saveData();
+      editing = null;
+      showingForm[cat] = false;
+      render();
+    };
+    var cancelBtn = document.createElement("button");
+    cancelBtn.className = "btn btn-secondary";
+    cancelBtn.textContent = "Cancel";
+    cancelBtn.onclick = function(){ editing=null; showingForm[cat]=false; render(); };
+    actions.appendChild(saveBtn);
+    actions.appendChild(cancelBtn);
+    card.appendChild(actions);
+
+    return card;
+  }
+
+  var showingForm = {lic:false,insurance:false,shares:false,gold:false,silver:false};
+
+  function buildFilterBar(){
+    var owners = getOwners();
+    if(owners.length===0) return null;
+    var bar = document.createElement("div");
+    bar.className = "filter-bar";
+    var label = document.createElement("span");
+    label.textContent = "Showing:";
+    bar.appendChild(label);
+    var select = document.createElement("select");
+    var allOpt = document.createElement("option");
+    allOpt.value = "";
+    allOpt.textContent = "Everyone";
+    select.appendChild(allOpt);
+    owners.forEach(function(o){
+      var opt = document.createElement("option");
+      opt.value = o;
+      opt.textContent = o;
+      if(o===ownerFilter) opt.selected = true;
+      select.appendChild(opt);
+    });
+    select.onchange = function(){ ownerFilter = select.value; render(); };
+    bar.appendChild(select);
+    return bar;
+  }
+
+  function render(){
+    buildTabs();
+    var container = document.getElementById("sections");
+    container.innerHTML = "";
+
+    var filterBar = buildFilterBar();
+    if(filterBar) container.appendChild(filterBar);
+
+    if(activeTab==="dashboard"){
+      var dashSec = document.createElement("div");
+      dashSec.className = "section active";
+      renderDashboard(dashSec);
+      container.appendChild(dashSec);
+      computeTotals();
+      return;
+    }
+
+    ORDER.forEach(function(cat){
+      var sec = document.createElement("div");
+      sec.className = "section" + (cat===activeTab?" active":"");
+
+      var head = document.createElement("div");
+      head.className = "section-head";
+      var h2 = document.createElement("h2");
+      h2.textContent = CATS[cat].label;
+      head.appendChild(h2);
+      var st = subtotalLabel(cat);
+      var sub = document.createElement("div");
+      sub.className = "subtotal";
+      sub.innerHTML = st.main + "<small>" + st.sub + "</small>";
+      head.appendChild(sub);
+      sec.appendChild(head);
+
+      var isEditingHere = editing && editing.cat===cat;
+      if(isEditingHere){
+        var existing = data[cat].find(function(x){return x.id===editing.id;});
+        sec.appendChild(buildForm(cat, existing));
+      } else if(showingForm[cat]){
+        sec.appendChild(buildForm(cat, null));
+      } else {
+        var addBtn = document.createElement("button");
+        addBtn.className = "add-btn";
+        addBtn.textContent = "+ Add " + CATS[cat].label.toLowerCase().replace(/s$/,'').replace('lic policie','LIC policy');
+        addBtn.onclick = function(){ showingForm[cat]=true; render(); };
+        sec.appendChild(addBtn);
+      }
+
+      if(filteredList(cat).length===0 && !isEditingHere && !showingForm[cat]){
+        var empty = document.createElement("div");
+        empty.className = "empty";
+        empty.innerHTML = "<span>—</span>" + (ownerFilter ? "Nothing here for " + ownerFilter : "Nothing here yet");
+        sec.appendChild(empty);
+      } else if(!isEditingHere) {
+        filteredList(cat).slice().reverse().forEach(function(e){
+          sec.appendChild(entryCard(cat, e));
+        });
+      }
+
+      container.appendChild(sec);
+    });
+    computeTotals();
+  }
+
+  var toastTimer;
+  function showToast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2200);
+  }
+
+  document.getElementById("exportBtn").onclick = function(){
+    var blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "asset-register-backup.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("Backup downloaded");
+  };
+  document.getElementById("importBtn").onclick = function(){
+    document.getElementById("importFile").click();
+  };
+  document.getElementById("importFile").onchange = function(e){
+    var file = e.target.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(evt){
+      try{
+        var parsed = JSON.parse(evt.target.result);
+        ORDER.forEach(function(c){ if(Array.isArray(parsed[c])) data[c]=parsed[c]; });
+        saveData();
+        render();
+        showToast("Backup restored");
+      }catch(err){
+        showToast("Invalid backup file");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  };
+
+  loadData();
+  render();
+})();
+</script>
+</body>
+</html>
