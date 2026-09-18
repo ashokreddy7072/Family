@@ -270,6 +270,41 @@ body{
 .entry-grid strong{display:block;color:var(--ink);font-weight:500;font-size:13px;margin-top:1px;}
 
 .entry-gain{font-size:12px;margin-top:8px;}
+.pay-progress{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+.pay-progress-top{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:5px;
+}
+.pay-progress-track{
+  height:6px;
+  background:var(--line);
+  border-radius:20px;
+  overflow:hidden;
+}
+.pay-progress-fill{
+  height:100%;
+  border-radius:20px;
+  background:var(--amber);
+}
+.pay-progress-amts{
+  display:flex;
+  justify-content:space-between;
+  font-size:11.5px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.pay-progress-amts strong{
+  color:var(--ink);
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:500;
+}
 .gain-up{color:var(--green);}
 .gain-down{color:var(--red);}
 
@@ -665,6 +700,8 @@ body{
         {key:"sumAssured",label:"Sum assured (₹)",type:"number",required:true},
         {key:"maturityAmount",label:"Expected maturity amount (₹)",type:"number",placeholder:"incl. bonus, if known"},
         {key:"premium",label:"Annual premium (₹)",type:"number"},
+        {key:"startDate",label:"Policy start date",type:"date"},
+        {key:"premiumPayingTerm",label:"Premium paying term (years)",type:"number",placeholder:"e.g. 16"},
         {key:"maturityDate",label:"Maturity date",type:"date"},
         {key:"paidThisYear",label:"Premium paid this year?",type:"select",options:["No","Yes"]},
         {key:"status",label:"Status",type:"select",options:["Active","Lapsed","Matured"]}
@@ -678,6 +715,8 @@ body{
         {key:"type",label:"Type",type:"select",options:["Health","Term Life","Vehicle","Home","Other"]},
         {key:"sumAssured",label:"Coverage amount (₹)",type:"number",required:true},
         {key:"premium",label:"Annual premium (₹)",type:"number"},
+        {key:"startDate",label:"Policy start date",type:"date"},
+        {key:"premiumPayingTerm",label:"Premium paying term (years)",type:"number",placeholder:"e.g. 10"},
         {key:"renewalDate",label:"Renewal date",type:"date"},
         {key:"paidThisYear",label:"Premium paid this year?",type:"select",options:["No","Yes"]},
         {key:"status",label:"Status",type:"select",options:["Active","Lapsed"]}
@@ -835,6 +874,43 @@ body{
   function licPayout(e){
     // what you can actually expect to receive: maturity amount if entered, else sum assured
     return Number(e.maturityAmount) || Number(e.sumAssured) || 0;
+  }
+  function paymentProgress(e){
+    // How many years of premium are paid vs remaining, based on the
+    // policy's start date and premium paying term. Returns null when
+    // there isn't enough info (start date + term + premium) to compute it.
+    var term = Number(e.premiumPayingTerm);
+    var premium = Number(e.premium);
+    if(!e.startDate || !term || term<=0 || !premium) return null;
+
+    var start = new Date(e.startDate + "T00:00:00");
+    if(isNaN(start.getTime())) return null;
+    var now = new Date();
+
+    var yearsElapsed = now.getFullYear() - start.getFullYear();
+    var anniversaryPassed = (now.getMonth() > start.getMonth()) ||
+      (now.getMonth()===start.getMonth() && now.getDate()>=start.getDate());
+    if(anniversaryPassed) yearsElapsed += 1; // this policy-year's premium has come due
+    if(yearsElapsed < 0) yearsElapsed = 0;
+    if(yearsElapsed > term) yearsElapsed = term;
+
+    // yearsElapsed = number of premiums that have come due so far.
+    // If the most recent one is marked paid, count it; otherwise it's
+    // still pending (don't count it as paid).
+    var yearsPaid = yearsElapsed;
+    if(yearsElapsed > 0 && e.paidThisYear !== "Yes") yearsPaid -= 1;
+    if(yearsPaid < 0) yearsPaid = 0;
+
+    var yearsRemaining = term - yearsPaid;
+    if(yearsRemaining < 0) yearsRemaining = 0;
+
+    return {
+      term: term,
+      yearsPaid: yearsPaid,
+      yearsRemaining: yearsRemaining,
+      totalPaid: yearsPaid * premium,
+      totalRemaining: yearsRemaining * premium
+    };
   }
   function premiumStatusTotals(){
     var paid=0, pending=0;
@@ -1106,9 +1182,11 @@ body{
     var licPayoutTotal = licVal0;
     var licCover = licList.reduce(function(s,e){return s+(Number(e.sumAssured)||0);},0);
     var licPremium = licList.reduce(function(s,e){return s+(Number(e.premium)||0);},0);
+    var licPaidTotal=0, licRemainingTotal=0;
+    licList.forEach(function(e){ var pp=paymentProgress(e); if(pp){ licPaidTotal+=pp.totalPaid; licRemainingTotal+=pp.totalRemaining; } });
     wrap.appendChild(dashboardCard(
       "LIC policies — what you can get", fmt(licPayoutTotal), licList.length + " " + (licList.length===1?"policy":"policies"),
-      [["Sum assured (base)", fmt(licCover)], ["Annual premium outgo", fmt(licPremium)]],
+      [["Sum assured (base)", fmt(licCover)], ["Annual premium outgo", fmt(licPremium)], ["Premiums paid so far", fmt(licPaidTotal)], ["Still left to pay", fmt(licRemainingTotal)]],
       "--amber"
     ));
 
@@ -1116,9 +1194,11 @@ body{
     var insList = insList0;
     var insCover = insVal0;
     var insPremium = insList.reduce(function(s,e){return s+(Number(e.premium)||0);},0);
+    var insPaidTotal=0, insRemainingTotal=0;
+    insList.forEach(function(e){ var pp=paymentProgress(e); if(pp){ insPaidTotal+=pp.totalPaid; insRemainingTotal+=pp.totalRemaining; } });
     wrap.appendChild(dashboardCard(
       "Insurance cover", fmt(insCover), insList.length + " " + (insList.length===1?"policy":"policies"),
-      [["Annual premium outgo", fmt(insPremium)]],
+      [["Annual premium outgo", fmt(insPremium)], ["Premiums paid so far", fmt(insPaidTotal)], ["Still left to pay", fmt(insRemainingTotal)]],
       "--rose"
     ));
 
@@ -1245,6 +1325,7 @@ body{
       if(f.type==="number" && f.key==="qty") displayVal = e[f.key]+" shares";
       if(f.type==="number" && f.key==="units") displayVal = e[f.key]+" units";
       if(f.type==="number" && f.key==="interestRate") displayVal = e[f.key]+"%";
+      if(f.type==="number" && f.key==="premiumPayingTerm") displayVal = e[f.key]+" years";
       d.innerHTML = f.label + "<strong>" + displayVal + "</strong>";
       grid.appendChild(d);
     });
@@ -1259,6 +1340,20 @@ body{
       g.className = "entry-gain " + (gain>=0?"gain-up":"gain-down");
       g.textContent = (gain>=0?"+":"") + fmt(gain) + " (" + (gain>=0?"+":"") + pct.toFixed(1) + "%) vs invested " + fmt(inv);
       div.appendChild(g);
+    }
+
+    if(cat==="lic"||cat==="insurance"){
+      var pp = paymentProgress(e);
+      if(pp){
+        var ppWrap = document.createElement("div");
+        ppWrap.className = "pay-progress";
+        var ppPct = pp.term>0 ? (pp.yearsPaid/pp.term*100) : 0;
+        ppWrap.innerHTML =
+          '<div class="pay-progress-top"><span>' + pp.yearsPaid + ' of ' + pp.term + ' years paid</span><span>' + pp.yearsRemaining + ' years left</span></div>' +
+          '<div class="pay-progress-track"><div class="pay-progress-fill" style="width:' + ppPct + '%"></div></div>' +
+          '<div class="pay-progress-amts"><span>Paid so far: <strong>' + fmt(pp.totalPaid) + '</strong></span><span>Still to pay: <strong>' + fmt(pp.totalRemaining) + '</strong></span></div>';
+        div.appendChild(ppWrap);
+      }
     }
 
     var actions = document.createElement("div");
