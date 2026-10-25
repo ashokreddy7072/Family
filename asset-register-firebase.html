@@ -27,14 +27,16 @@
   --amber-soft:#F2E3D3;
   --rose:#9C4A63;
   --rose-soft:#F1DEE5;
+  --indigo:#4A4F8F;
+  --indigo-soft:#E4E4F1;
   --red:#8F3B3B;
   --red-soft:#F3E2E0;
   --muted:#6B7280;
   --shadow: 0 1px 0 rgba(22,35,61,0.06);
   --radius: 3px;
 }
-:root:not([data-theme="light"]) {
-  @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
     --ink:#EDE7D8;
     --paper:#141821;
     --paper-raised:#1C212C;
@@ -53,6 +55,8 @@
     --amber-soft:#2E2417;
     --rose:#D493AA;
     --rose-soft:#2B1D23;
+    --indigo:#9297D9;
+    --indigo-soft:#22233A;
     --red:#D98080;
     --red-soft:#2A1B1B;
     --muted:#9AA3B2;
@@ -77,6 +81,8 @@
   --amber-soft:#2E2417;
   --rose:#D493AA;
   --rose-soft:#2B1D23;
+  --indigo:#9297D9;
+  --indigo-soft:#22233A;
   --red:#D98080;
   --red-soft:#2A1B1B;
   --muted:#9AA3B2;
@@ -597,6 +603,97 @@ body{
 }
 .toast.show{opacity:1;}
 
+.cover-total{cursor:pointer;}
+.cover-total:hover .tap-hint{opacity:1;}
+.tap-hint{
+  font-size:11px;
+  opacity:0.55;
+  margin-left:6px;
+  white-space:nowrap;
+}
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  z-index:100;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+.modal-card{
+  background:var(--paper-raised);
+  width:100%;
+  max-width:520px;
+  max-height:80vh;
+  overflow-y:auto;
+  border-radius:14px 14px 0 0;
+  padding:0;
+}
+@media (min-width:560px){
+  .modal-overlay{align-items:center;}
+  .modal-card{border-radius:14px;max-height:70vh;}
+}
+.modal-head{
+  position:sticky;
+  top:0;
+  background:var(--paper-raised);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 18px;
+  border-bottom:1px solid var(--line);
+  font-family:'Fraunces',serif;
+  font-size:17px;
+  font-weight:600;
+}
+.modal-close{
+  background:none;
+  border:none;
+  font-size:16px;
+  color:var(--muted);
+  cursor:pointer;
+  padding:4px 8px;
+}
+.modal-body{padding:8px 18px 22px;}
+.modal-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+}
+.modal-row:last-child{border-bottom:none;}
+.modal-row-label{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:14px;
+}
+.modal-row-label .dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
+.modal-row-val{
+  text-align:right;
+  font-family:'IBM Plex Mono', monospace;
+  font-weight:600;
+  font-size:14px;
+}
+.modal-row-val small{
+  display:block;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:400;
+  font-size:11px;
+  color:var(--muted);
+}
+.modal-total-row{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0 6px;
+  margin-top:4px;
+  font-family:'Fraunces',serif;
+  font-size:17px;
+  font-weight:600;
+}
+
 .db-banner{
   background:var(--red-soft);
   color:var(--red);
@@ -610,25 +707,126 @@ body{
   color:var(--green);
 }
 
+/* ---- Password lock screen ---- */
+#appContent{display:none;}
+#lockScreen{
+  position:fixed;
+  inset:0;
+  background:var(--ink);
+  color:var(--paper);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:24px;
+}
+.lock-card{
+  width:100%;
+  max-width:340px;
+  text-align:center;
+}
+.lock-card .lock-eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  letter-spacing:0.02em;
+  color:var(--gold);
+  margin:0 0 8px;
+}
+.lock-card h1{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:24px;
+  margin:0 0 22px;
+}
+.lock-card input[type="password"]{
+  width:100%;
+  padding:12px 14px;
+  font-size:15px;
+  font-family:inherit;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  background:rgba(250,246,236,0.06);
+  color:var(--paper);
+  margin-bottom:10px;
+}
+.lock-card input[type="password"]::placeholder{color:rgba(250,246,236,0.4);}
+.lock-card button{
+  width:100%;
+  padding:12px;
+  font-size:14px;
+  font-weight:600;
+  font-family:inherit;
+  border:none;
+  border-radius:var(--radius);
+  background:var(--gold);
+  color:var(--ink);
+  cursor:pointer;
+  margin-bottom:14px;
+}
+.lock-card .lock-msg{
+  font-size:12.5px;
+  min-height:16px;
+  margin-bottom:10px;
+  color:#D98080;
+}
+.lock-card .lock-hint{
+  font-size:11.5px;
+  color:rgba(250,246,236,0.5);
+  line-height:1.5;
+}
+.lock-card .lock-hint a{color:var(--gold);cursor:pointer;text-decoration:underline;}
+.lock-shake{animation:lockShake 0.32s;}
+@keyframes lockShake{
+  10%,90%{transform:translateX(-2px);}
+  20%,80%{transform:translateX(4px);}
+  30%,50%,70%{transform:translateX(-8px);}
+  40%,60%{transform:translateX(8px);}
+}
+
 </style>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
+<div id="lockScreen">
+  <div class="lock-card">
+    <p class="lock-eyebrow">ASSET REGISTER</p>
+    <h1 id="lockTitle">Enter password</h1>
+    <input type="password" id="lockInput" placeholder="Password" autocomplete="off">
+    <input type="password" id="lockInputConfirm" placeholder="Confirm password" autocomplete="off" style="display:none;">
+    <div class="lock-msg" id="lockMsg"></div>
+    <button id="lockBtn">Unlock</button>
+    <div class="lock-hint" id="lockHint"></div>
+  </div>
+</div>
+
+<div id="appContent">
+
 <div class="cover">
   <div class="cover-inner">
     <p class="cover-eyebrow">ASSET REGISTER</p>
     <h1>Everything I own, in one ledger</h1>
-    <div class="cover-total">
+    <div class="cover-total" id="coverTotalTap" role="button" tabindex="0">
       <span class="amt" id="netWorth">₹0</span>
-      <span class="label">current portfolio value</span>
+      <span class="label">current portfolio value <span class="tap-hint">tap for details ›</span></span>
     </div>
     <div class="cover-sub">
-      <div>LIC + Insurance cover<strong id="sumCover">₹0</strong></div>
+      <div>LIC cover<strong id="sumCoverLic">₹0</strong></div>
+      <div>Insurance cover<strong id="sumCoverIns">₹0</strong></div>
       <div>Annual premium<strong id="sumPremium">₹0</strong></div>
       <div>Overall gain/loss<strong id="sumGain">₹0</strong></div>
     </div>
+  </div>
+</div>
+
+<div id="detailModalOverlay" class="modal-overlay" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span>Portfolio breakdown</span>
+      <button id="detailModalClose" class="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div id="detailModalBody" class="modal-body"></div>
   </div>
 </div>
 
@@ -650,6 +848,8 @@ body{
 
 <div class="toast" id="toast"></div>
 <input type="file" id="importFile" accept="application/json" style="display:none;">
+
+</div><!-- /#appContent -->
 
 <script>
 (function(){
@@ -678,12 +878,16 @@ body{
   var firebaseReady = FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY";
   var fsDoc = null;
   var fsUnsubscribe = null;
+  var fsAuthDoc = null;
 
   if(firebaseReady){
     try{
       firebase.initializeApp(FIREBASE_CONFIG);
       var fsDb = firebase.firestore();
       fsDoc = fsDb.collection(FIRESTORE_DOC_PATH[0]).doc(FIRESTORE_DOC_PATH[1]);
+      // Separate document just for the password hash, so unlocking never
+      // touches (or gets overwritten by) the asset data document.
+      fsAuthDoc = fsDb.collection(FIRESTORE_DOC_PATH[0]).doc(FIRESTORE_DOC_PATH[1] + "_auth");
     }catch(err){
       console.error("Firebase init failed", err);
       firebaseReady = false;
@@ -699,6 +903,7 @@ body{
         {key:"number",label:"Policy number",type:"text",placeholder:"e.g. 123456789"},
         {key:"sumAssured",label:"Sum assured (₹)",type:"number",required:true},
         {key:"maturityAmount",label:"Expected maturity amount (₹)",type:"number",placeholder:"incl. bonus, if known"},
+        {key:"yearlyIncome",label:"Yearly income / survival benefit (₹)",type:"number",placeholder:"if policy pays yearly income"},
         {key:"premium",label:"Annual premium (₹)",type:"number"},
         {key:"startDate",label:"Policy start date",type:"date"},
         {key:"premiumPayingTerm",label:"Premium paying term (years)",type:"number",placeholder:"e.g. 16"},
@@ -754,6 +959,17 @@ body{
         {key:"maturityDate",label:"Maturity date",type:"date"}
       ]
     },
+    ppf: {
+      label:"PPF",
+      fields:[
+        {key:"name",label:"Account (bank/post office)",type:"text",required:true,placeholder:"e.g. PPF - SBI"},
+        {key:"owner",label:"Family member",type:"text",placeholder:"e.g. Dad, Mom, Self"},
+        {key:"currentBalance",label:"Current balance (₹)",type:"number",required:true},
+        {key:"totalContributed",label:"Total contributed so far (₹)",type:"number",placeholder:"optional, for gain tracking"},
+        {key:"interestRate",label:"Interest rate (%)",type:"number"},
+        {key:"maturityDate",label:"Maturity date",type:"date"}
+      ]
+    },
     gold: {
       label:"Gold",
       fields:[
@@ -776,11 +992,11 @@ body{
       ]
     }
   };
-  var ORDER = ["lic","insurance","shares","mutualfunds","bonds","gold","silver"];
+  var ORDER = ["lic","insurance","shares","mutualfunds","bonds","ppf","gold","silver"];
   var TABS = ["dashboard"].concat(ORDER);
   var TAB_LABELS = {dashboard:"Dashboard"};
   var STORAGE_KEY = "assetRegister_v1";
-  var data = {lic:[],insurance:[],shares:[],mutualfunds:[],bonds:[],gold:[],silver:[]};
+  var data = {lic:[],insurance:[],shares:[],mutualfunds:[],bonds:[],ppf:[],gold:[],silver:[]};
   var activeTab = "dashboard";
   var editing = null; // {cat, id} or null
   var ownerFilter = ""; // "" = all family members
@@ -868,6 +1084,7 @@ body{
     if(cat==="shares") return (Number(e.qty)||0) * (Number(e.currentPrice)||0);
     if(cat==="mutualfunds") return (Number(e.units)||0) * (Number(e.currentNAV)||0);
     if(cat==="bonds") return (Number(e.units)||0) * (Number(e.currentPrice)||0);
+    if(cat==="ppf") return Number(e.currentBalance)||0;
     if(cat==="gold" || cat==="silver") return (Number(e.weight)||0) * (Number(e.currentPrice)||0);
     return Number(e.sumAssured)||0; // lic/insurance: coverage, not liquid value
   }
@@ -929,16 +1146,21 @@ body{
     if(cat==="insurance") return Number(e.sumAssured)||0;
     return currentValue(cat, e);
   }
+  function normOwnerKey(name){
+    return (name||"").trim().replace(/\s+/g," ").toLowerCase();
+  }
   function computeByOwner(){
-    var byOwner = {};
+    var byKey = {}; // key -> {label, total}
     ORDER.forEach(function(cat){
       filteredList(cat).forEach(function(e){
-        var owner = (e.owner||"").trim() || "Unassigned";
-        if(!byOwner[owner]) byOwner[owner] = 0;
-        byOwner[owner] += ownerValue(cat, e);
+        var raw = (e.owner||"").trim().replace(/\s+/g," ");
+        var key = raw ? normOwnerKey(raw) : "unassigned";
+        var label = raw || "Unassigned";
+        if(!byKey[key]) byKey[key] = {label:label, total:0};
+        byKey[key].total += ownerValue(cat, e);
       });
     });
-    var list = Object.keys(byOwner).map(function(k){ return {name:k, total:byOwner[k]}; });
+    var list = Object.keys(byKey).map(function(k){ return {name:byKey[k].label, total:byKey[k].total}; });
     list.sort(function(a,b){ return b.total - a.total; });
     return list;
   }
@@ -947,40 +1169,56 @@ body{
     if(cat==="mutualfunds") return (Number(e.units)||0) * (Number(e.buyNAV)||0);
     if(cat==="bonds") return (Number(e.units)||0) * (Number(e.buyPrice)||0);
     if(cat==="gold" || cat==="silver") return (Number(e.weight)||0) * (Number(e.buyPrice)||0);
+    if(cat==="ppf") return e.totalContributed!==undefined && e.totalContributed!=="" ? (Number(e.totalContributed)||0) : null;
     return null;
   }
 
   function getOwners(){
-    var set = {};
+    // Dedupe by normalized key (trimmed, single-spaced, case-insensitive),
+    // but keep the most-common original casing/spacing as the display label.
+    var counts = {}; // key -> { label -> count }
     ORDER.forEach(function(cat){
       data[cat].forEach(function(e){
-        var o = (e.owner||"").trim();
-        if(o) set[o]=true;
+        var raw = (e.owner||"").trim().replace(/\s+/g," ");
+        if(!raw) return;
+        var key = normOwnerKey(raw);
+        if(!counts[key]) counts[key] = {};
+        counts[key][raw] = (counts[key][raw]||0) + 1;
       });
     });
-    return Object.keys(set).sort();
+    var result = Object.keys(counts).map(function(key){
+      var variants = counts[key];
+      var bestLabel = Object.keys(variants).sort(function(a,b){ return variants[b]-variants[a]; })[0];
+      return {key:key, label:bestLabel};
+    });
+    result.sort(function(a,b){ return a.label.localeCompare(b.label); });
+    return result;
   }
   function filteredList(cat){
     if(!ownerFilter) return data[cat];
-    return data[cat].filter(function(e){ return (e.owner||"").trim()===ownerFilter; });
+    return data[cat].filter(function(e){ return normOwnerKey(e.owner)===ownerFilter; });
   }
 
   function computeTotals(){
-    var netWorth=0, cover=0, premium=0, invested=0, marketVal=0;
+    var netWorth=0, coverLic=0, coverIns=0, premium=0, invested=0, marketVal=0;
     ORDER.forEach(function(cat){
       filteredList(cat).forEach(function(e){
-        if(cat==="shares"||cat==="mutualfunds"||cat==="bonds"||cat==="gold"||cat==="silver"){
+        if(cat==="shares"||cat==="mutualfunds"||cat==="bonds"||cat==="ppf"||cat==="gold"||cat==="silver"){
           netWorth += currentValue(cat,e);
           var inv = investedValue(cat,e);
           if(inv!==null){ invested += inv; marketVal += currentValue(cat,e); }
-        } else {
-          cover += Number(e.sumAssured)||0;
+        } else if(cat==="lic"){
+          coverLic += Number(e.sumAssured)||0;
+          premium += Number(e.premium)||0;
+        } else if(cat==="insurance"){
+          coverIns += Number(e.sumAssured)||0;
           premium += Number(e.premium)||0;
         }
       });
     });
     document.getElementById("netWorth").textContent = fmt(netWorth);
-    document.getElementById("sumCover").textContent = fmt(cover);
+    document.getElementById("sumCoverLic").textContent = fmt(coverLic);
+    document.getElementById("sumCoverIns").textContent = fmt(coverIns);
     document.getElementById("sumPremium").textContent = fmt(premium);
     var gain = marketVal - invested;
     var gainEl = document.getElementById("sumGain");
@@ -1079,7 +1317,7 @@ body{
     rows.innerHTML =
       '<div><span class="dot" style="background:var(--green)"></span>Paid<strong>' + fmt(t.paid) + '</strong></div>' +
       '<div><span class="dot" style="background:var(--red)"></span>Pending<strong>' + fmt(t.pending) + '</strong></div>' +
-      '<div><span class="dot" style="background:var(--muted)"></span>Total due<strong>' + fmt(t.total) + '</strong></div>';
+      '<div><span class="dot" style="background:var(--muted)"></span>Total annual premium<strong>' + fmt(t.total) + '</strong></div>';
     wrap.appendChild(rows);
     return wrap;
   }
@@ -1150,12 +1388,13 @@ body{
 
   function renderDashboard(container){
     var licList0 = filteredList("lic"), insList0 = filteredList("insurance");
-    var shList0 = filteredList("shares"), mfList0 = filteredList("mutualfunds"), bnList0 = filteredList("bonds"), goList0 = filteredList("gold"), siList0 = filteredList("silver");
+    var shList0 = filteredList("shares"), mfList0 = filteredList("mutualfunds"), bnList0 = filteredList("bonds"), ppfList0 = filteredList("ppf"), goList0 = filteredList("gold"), siList0 = filteredList("silver");
     var licVal0 = licList0.reduce(function(s,e){return s+licPayout(e);},0);
     var insVal0 = insList0.reduce(function(s,e){return s+(Number(e.sumAssured)||0);},0);
     var shVal0 = shList0.reduce(function(s,e){return s+currentValue("shares",e);},0);
     var mfVal0 = mfList0.reduce(function(s,e){return s+currentValue("mutualfunds",e);},0);
     var bnVal0 = bnList0.reduce(function(s,e){return s+currentValue("bonds",e);},0);
+    var ppfVal0 = ppfList0.reduce(function(s,e){return s+currentValue("ppf",e);},0);
     var goVal0 = goList0.reduce(function(s,e){return s+currentValue("gold",e);},0);
     var siVal0 = siList0.reduce(function(s,e){return s+currentValue("silver",e);},0);
 
@@ -1167,6 +1406,7 @@ body{
       {label:"Shares", value:shVal0, colorVar:"--green"},
       {label:"Mutual Funds", value:mfVal0, colorVar:"--blue"},
       {label:"Bonds", value:bnVal0, colorVar:"--teal"},
+      {label:"PPF", value:ppfVal0, colorVar:"--indigo"},
       {label:"Gold", value:goVal0, colorVar:"--gold"},
       {label:"Silver", value:siVal0, colorVar:"--silver"}
     ]));
@@ -1232,6 +1472,20 @@ body{
       "--teal"
     ));
 
+    // PPF
+    var ppfList = ppfList0;
+    var ppfVal = ppfVal0;
+    var ppfInvKnown = ppfList.some(function(e){ return investedValue("ppf",e)!==null; });
+    var ppfInv = ppfList.reduce(function(s,e){ var iv=investedValue("ppf",e); return s+(iv||0); },0);
+    var ppfRows = ppfInvKnown
+      ? [["Contributed", fmt(ppfInv)], ["Interest earned", (ppfVal-ppfInv>=0?"+":"")+fmt(ppfVal-ppfInv)]]
+      : [];
+    wrap.appendChild(dashboardCard(
+      "PPF — current worth", fmt(ppfVal), ppfList.length + " " + (ppfList.length===1?"account":"accounts"),
+      ppfRows,
+      "--indigo"
+    ));
+
     // Gold
     var goList = goList0;
     var goVal = goVal0;
@@ -1256,10 +1510,10 @@ body{
 
     container.appendChild(wrap);
 
-    if(licList.length+insList.length+shList.length+mfList.length+bnList.length+goList.length+siList.length===0){
+    if(licList.length+insList.length+shList.length+mfList.length+bnList.length+ppfList.length+goList.length+siList.length===0){
       var empty = document.createElement("div");
       empty.className = "empty";
-      empty.innerHTML = "<span>—</span>" + (ownerFilter ? "Nothing for " + ownerFilter + " yet" : "Add your policies and holdings in the tabs above to see them here");
+      empty.innerHTML = "<span>—</span>" + (ownerFilter ? "Nothing for " + ownerFilterLabel() + " yet" : "Add your policies and holdings in the tabs above to see them here");
       container.appendChild(empty);
     }
   }
@@ -1320,7 +1574,7 @@ body{
       if(!e[f.key]) return;
       var d = document.createElement("div");
       var displayVal = e[f.key];
-      if(f.type==="number" && (f.key==="buyPrice"||f.key==="currentPrice"||f.key==="premium"||f.key==="maturityAmount"||f.key==="sumAssured"||f.key==="buyNAV"||f.key==="currentNAV")) displayVal = fmt(e[f.key]);
+      if(f.type==="number" && (f.key==="buyPrice"||f.key==="currentPrice"||f.key==="premium"||f.key==="maturityAmount"||f.key==="sumAssured"||f.key==="buyNAV"||f.key==="currentNAV"||f.key==="yearlyIncome"||f.key==="currentBalance"||f.key==="totalContributed")) displayVal = fmt(e[f.key]);
       if(f.type==="number" && f.key==="weight") displayVal = e[f.key]+" g";
       if(f.type==="number" && f.key==="qty") displayVal = e[f.key]+" shares";
       if(f.type==="number" && f.key==="units") displayVal = e[f.key]+" units";
@@ -1331,15 +1585,17 @@ body{
     });
     if(grid.children.length) div.appendChild(grid);
 
-    if(cat==="shares"||cat==="mutualfunds"||cat==="bonds"||cat==="gold"||cat==="silver"){
+    if(cat==="shares"||cat==="mutualfunds"||cat==="bonds"||cat==="ppf"||cat==="gold"||cat==="silver"){
       var inv = investedValue(cat,e);
-      var val = currentValue(cat,e);
-      var gain = val - inv;
-      var pct = inv ? (gain/inv*100) : 0;
-      var g = document.createElement("div");
-      g.className = "entry-gain " + (gain>=0?"gain-up":"gain-down");
-      g.textContent = (gain>=0?"+":"") + fmt(gain) + " (" + (gain>=0?"+":"") + pct.toFixed(1) + "%) vs invested " + fmt(inv);
-      div.appendChild(g);
+      if(inv!==null){
+        var val = currentValue(cat,e);
+        var gain = val - inv;
+        var pct = inv ? (gain/inv*100) : 0;
+        var g = document.createElement("div");
+        g.className = "entry-gain " + (gain>=0?"gain-up":"gain-down");
+        g.textContent = (gain>=0?"+":"") + fmt(gain) + " (" + (gain>=0?"+":"") + pct.toFixed(1) + "%) vs invested " + fmt(inv);
+        div.appendChild(g);
+      }
     }
 
     if(cat==="lic"||cat==="insurance"){
@@ -1383,7 +1639,7 @@ body{
     var card = document.createElement("div");
     card.className = "form-card";
     var h3 = document.createElement("h3");
-    h3.textContent = existing ? "Edit entry" : "Add " + def.label.toLowerCase().replace(/s$/,'').replace('lic policie','LIC policy');
+    h3.textContent = existing ? "Edit entry" : "Add " + def.label.toLowerCase().replace(/s$/,'').replace('lic policie','LIC policy').replace(/^ppf$/,'PPF account');
     card.appendChild(h3);
 
     var inputs = {};
@@ -1470,6 +1726,11 @@ body{
 
   var showingForm = {lic:false,insurance:false,shares:false,gold:false,silver:false};
 
+  function ownerFilterLabel(){
+    if(!ownerFilter) return "";
+    var match = getOwners().filter(function(o){ return o.key===ownerFilter; })[0];
+    return match ? match.label : ownerFilter;
+  }
   function buildFilterBar(){
     var owners = getOwners();
     if(owners.length===0) return null;
@@ -1485,9 +1746,9 @@ body{
     select.appendChild(allOpt);
     owners.forEach(function(o){
       var opt = document.createElement("option");
-      opt.value = o;
-      opt.textContent = o;
-      if(o===ownerFilter) opt.selected = true;
+      opt.value = o.key;
+      opt.textContent = o.label;
+      if(o.key===ownerFilter) opt.selected = true;
       select.appendChild(opt);
     });
     select.onchange = function(){ ownerFilter = select.value; render(); };
@@ -1537,7 +1798,7 @@ body{
       } else {
         var addBtn = document.createElement("button");
         addBtn.className = "add-btn";
-        addBtn.textContent = "+ Add " + CATS[cat].label.toLowerCase().replace(/s$/,'').replace('lic policie','LIC policy');
+        addBtn.textContent = "+ Add " + CATS[cat].label.toLowerCase().replace(/s$/,'').replace('lic policie','LIC policy').replace(/^ppf$/,'PPF account');
         addBtn.onclick = function(){ showingForm[cat]=true; render(); };
         sec.appendChild(addBtn);
       }
@@ -1545,7 +1806,7 @@ body{
       if(filteredList(cat).length===0 && !isEditingHere && !showingForm[cat]){
         var empty = document.createElement("div");
         empty.className = "empty";
-        empty.innerHTML = "<span>—</span>" + (ownerFilter ? "Nothing here for " + ownerFilter : "Nothing here yet");
+        empty.innerHTML = "<span>—</span>" + (ownerFilter ? "Nothing here for " + ownerFilterLabel() : "Nothing here yet");
         sec.appendChild(empty);
       } else if(!isEditingHere) {
         filteredList(cat).slice().reverse().forEach(function(e){
@@ -1566,6 +1827,54 @@ body{
     clearTimeout(toastTimer);
     toastTimer = setTimeout(function(){ t.classList.remove("show"); }, 2200);
   }
+
+  function openDetailModal(){
+    var body = document.getElementById("detailModalBody");
+    body.innerHTML = "";
+
+    var rows = [
+      {label:"LIC (sum assured)", value: filteredList("lic").reduce(function(s,e){return s+(Number(e.sumAssured)||0);},0), colorVar:"--amber", note:"coverage, not liquid value"},
+      {label:"Insurance (coverage)", value: filteredList("insurance").reduce(function(s,e){return s+(Number(e.sumAssured)||0);},0), colorVar:"--rose", note:"coverage, not liquid value"},
+      {label:"Shares", value: filteredList("shares").reduce(function(s,e){return s+currentValue("shares",e);},0), colorVar:"--green"},
+      {label:"Mutual Funds", value: filteredList("mutualfunds").reduce(function(s,e){return s+currentValue("mutualfunds",e);},0), colorVar:"--blue"},
+      {label:"Bonds", value: filteredList("bonds").reduce(function(s,e){return s+currentValue("bonds",e);},0), colorVar:"--teal"},
+      {label:"PPF", value: filteredList("ppf").reduce(function(s,e){return s+currentValue("ppf",e);},0), colorVar:"--indigo"},
+      {label:"Gold", value: filteredList("gold").reduce(function(s,e){return s+currentValue("gold",e);},0), colorVar:"--gold"},
+      {label:"Silver", value: filteredList("silver").reduce(function(s,e){return s+currentValue("silver",e);},0), colorVar:"--silver"}
+    ];
+
+    var portfolioTotal = 0; // liquid net worth — matches the big cover number (excludes LIC/Insurance coverage)
+    rows.forEach(function(r){
+      if(r.label.indexOf("LIC")!==0 && r.label.indexOf("Insurance")!==0) portfolioTotal += r.value;
+    });
+
+    rows.forEach(function(r){
+      var row = document.createElement("div");
+      row.className = "modal-row";
+      row.innerHTML =
+        '<div class="modal-row-label"><span class="dot" style="background:var(' + r.colorVar + ')"></span>' + r.label + '</div>' +
+        '<div class="modal-row-val">' + fmt(r.value) + (r.note ? '<small>' + r.note + '</small>' : '') + '</div>';
+      body.appendChild(row);
+    });
+
+    var totalRow = document.createElement("div");
+    totalRow.className = "modal-total-row";
+    totalRow.innerHTML = '<span>Portfolio value</span><span>' + fmt(portfolioTotal) + '</span>';
+    body.appendChild(totalRow);
+
+    document.getElementById("detailModalOverlay").style.display = "flex";
+  }
+  function closeDetailModal(){
+    document.getElementById("detailModalOverlay").style.display = "none";
+  }
+  document.getElementById("coverTotalTap").onclick = openDetailModal;
+  document.getElementById("coverTotalTap").onkeydown = function(ev){
+    if(ev.key==="Enter" || ev.key===" ") openDetailModal();
+  };
+  document.getElementById("detailModalClose").onclick = closeDetailModal;
+  document.getElementById("detailModalOverlay").onclick = function(ev){
+    if(ev.target.id==="detailModalOverlay") closeDetailModal();
+  };
 
   document.getElementById("exportBtn").onclick = function(){
     var blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
@@ -1601,8 +1910,129 @@ body{
     e.target.value = "";
   };
 
-  loadData();
-  render();
+  function startApp(){
+    document.getElementById("lockScreen").style.display = "none";
+    document.getElementById("appContent").style.display = "block";
+    loadData();
+    render();
+  }
+
+  // ---- Password lock ----
+  // Source of truth is the Firestore "_auth" doc when connected, so the
+  // same password works from any device/browser. localStorage is kept
+  // only as an offline cache in case Firestore can't be reached.
+  var LOCK_KEY = STORAGE_KEY + "_pwhash";
+
+  function sha256Hex(text){
+    var enc = new TextEncoder().encode(text);
+    return crypto.subtle.digest("SHA-256", enc).then(function(buf){
+      var bytes = Array.from(new Uint8Array(buf));
+      return bytes.map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
+    });
+  }
+
+  function getStoredHash(){
+    // Returns a promise resolving to {hash: string|null, offline: bool}
+    if(firebaseReady && fsAuthDoc){
+      return fsAuthDoc.get().then(function(snap){
+        var d = snap.data();
+        var hash = d && d.hash ? d.hash : null;
+        if(hash) localStorage.setItem(LOCK_KEY, hash); // refresh offline cache
+        return {hash: hash, offline: false};
+      }).catch(function(err){
+        console.error("Could not reach database for password check", err);
+        return {hash: localStorage.getItem(LOCK_KEY), offline: true};
+      });
+    }
+    return Promise.resolve({hash: localStorage.getItem(LOCK_KEY), offline: false});
+  }
+
+  function setStoredHash(hash){
+    localStorage.setItem(LOCK_KEY, hash); // always cache locally
+    if(firebaseReady && fsAuthDoc){
+      return fsAuthDoc.set({hash: hash}).catch(function(err){
+        console.error("Could not save password to database", err);
+        return Promise.reject(err);
+      });
+    }
+    return Promise.resolve();
+  }
+
+  function initLock(){
+    var titleEl = document.getElementById("lockTitle");
+    var input = document.getElementById("lockInput");
+    var confirmInput = document.getElementById("lockInputConfirm");
+    var msg = document.getElementById("lockMsg");
+    var btn = document.getElementById("lockBtn");
+    var hint = document.getElementById("lockHint");
+    var card = document.querySelector(".lock-card");
+
+    titleEl.textContent = "Loading…";
+    input.style.display = "none";
+    btn.style.display = "none";
+
+    function shake(){
+      card.classList.remove("lock-shake");
+      void card.offsetWidth;
+      card.classList.add("lock-shake");
+    }
+
+    getStoredHash().then(function(result){
+      var storedHash = result.hash;
+      var settingUp = !storedHash;
+      input.style.display = "block";
+      btn.style.display = "block";
+
+      if(settingUp){
+        titleEl.textContent = "Set a password";
+        confirmInput.style.display = "block";
+        btn.textContent = "Set password & continue";
+        hint.textContent = firebaseReady
+          ? "Saved to the shared database — the same password will be asked for on every device that opens this file."
+          : "This password only lives in this browser. There's no way to recover it — if you forget it, you'll need to clear this site's browser data (which also erases your saved entries here) and set a new one.";
+      } else {
+        titleEl.textContent = "Enter password";
+        hint.textContent = result.offline ? "Offline — checking against the last password saved on this device." : "";
+      }
+
+      function submit(){
+        var pw = input.value;
+        if(!pw){ msg.textContent = "Enter a password."; shake(); return; }
+
+        if(settingUp){
+          var confirmPw = confirmInput.value;
+          if(pw.length < 4){ msg.textContent = "Use at least 4 characters."; shake(); return; }
+          if(pw !== confirmPw){ msg.textContent = "Passwords don't match."; shake(); confirmInput.value=""; return; }
+          sha256Hex(pw).then(function(hash){
+            return setStoredHash(hash);
+          }).then(function(){
+            startApp();
+          }).catch(function(){
+            msg.textContent = "Couldn't save to the database — check your connection and try again.";
+            shake();
+          });
+        } else {
+          sha256Hex(pw).then(function(hash){
+            if(hash === storedHash){
+              startApp();
+            } else {
+              msg.textContent = "Incorrect password.";
+              input.value = "";
+              shake();
+              input.focus();
+            }
+          });
+        }
+      }
+
+      btn.onclick = submit;
+      input.onkeydown = function(ev){ if(ev.key==="Enter"){ if(settingUp) confirmInput.focus(); else submit(); } };
+      confirmInput.onkeydown = function(ev){ if(ev.key==="Enter") submit(); };
+      input.focus();
+    });
+  }
+
+  initLock();
 })();
 </script>
 </body>
